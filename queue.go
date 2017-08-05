@@ -1,7 +1,5 @@
 package structs
 
-import "fmt"
-
 type Queue struct {
     data []interface{}
 }
