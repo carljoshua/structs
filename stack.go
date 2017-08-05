@@ -1,52 +1,33 @@
-package structure
-
-import (
-	"go/types"
-	"strings"
-)
+package structs
 
 type Stack struct {
-	elem types.Type
-	data []interface{}
+    data []interface{}
 }
 
-type General interface{}
-
-func Stack(elem types.Type) *Stack{
-
-	return &Stack{elem, nil}
+func NewStack() *Stack{
+    return &Stack{}
 }
 
-func (s *Stack) Elem() types.Type {
-	return s.elem
+func (s *Stack) Push(v interface{}){
+    s.data = append(s.data, v)
 }
 
-func (s *Stack) Pop() (top General){
-	if(len(s.data) != 0){
-		size := len(s.data)
-		top := s.data[size]
-		s.data[size] = s.data[size + 1]
-		return top
-	}else{
-		panic("Cannot use Pop in an empty Stack")
-	}
+func (s *Stack) Pop(){
+    if !s.IsEmpty(){
+        s.data = s.data[:len(s.data) - 1]
+    }
 }
 
-/*
-func (s *Stack) Push(value interface{}) {
-	if(value.String() == s.Elem().String()){
-		append(s.data, value)
-	}else{
-		panic("Cannot push value into the stack")
-	}
+func (s *Stack) Top() interface{}{
+    if !s.IsEmpty(){
+        return s.data[len(s.data) - 1]
+    }
+    return nil
 }
 
-/*
-type Queue struct {
-	elem Type
+func (s *Stack) IsEmpty() bool{
+    if len(s.data) == 0{
+        return true
+    }
+    return false
 }
-
-func Remove(*Type, index){
-
-}
-*/
