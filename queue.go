@@ -8,11 +8,11 @@ func NewQueue() *Queue{
     return &Queue{}
 }
 
-func (q *Queue) Push(v interface{}){
+func (q *Queue) Enqueue(v interface{}){
     q.data = append(q.data, v)
 }
 
-func (q *Queue) Pop(){
+func (q *Queue) Dequeue(){
     if !q.IsEmpty(){
         q.data = q.data[1:]
     }

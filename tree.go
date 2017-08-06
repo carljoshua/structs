@@ -25,7 +25,3 @@ func (n *Node) Insert(v int) *Node{
     }
     return n
 }
-
-func (n *Node) Remove(){
-    
-}

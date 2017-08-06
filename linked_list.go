@@ -37,6 +37,21 @@ func (l *ListNode) Insert(v interface{}, key int){
     }
 }
 
+func (l *ListNode) Remove(key int) {
+    if key == 0{
+        tmp := l.next
+        l.val = tmp.val
+        l.next = tmp.next
+    }else{
+        tmp := l
+        for i := 0; i < key - 1; i++{
+            tmp = tmp.next
+        }
+        tmp2 := tmp.next
+        tmp.next = tmp2.next
+    }
+}
+
 func (l *ListNode) Search(key int) interface{}{
     temp := l
     for i := 0; i < key; i++{
