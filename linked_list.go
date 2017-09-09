@@ -2,16 +2,19 @@ package structs
 
 import "fmt"
 
+// Structure of the a Linked List Node
 type ListNode struct {
     val interface{}
     next *ListNode
     isEmpty bool
 }
 
+// NewList() creates the head node of the Linked List
 func NewList() *ListNode{
     return &ListNode{isEmpty: true}
 }
 
+// Insert adds the an element into the given index
 func (l *ListNode) Insert(v interface{}, key int){
     if l.isEmpty{
         l.val = v
@@ -37,6 +40,7 @@ func (l *ListNode) Insert(v interface{}, key int){
     }
 }
 
+// Remove removes an element in the given index
 func (l *ListNode) Remove(key int) {
     if key == 0{
         tmp := l.next
@@ -52,6 +56,7 @@ func (l *ListNode) Remove(key int) {
     }
 }
 
+// Search returns the element in the given index
 func (l *ListNode) Search(key int) interface{}{
     temp := l
     for i := 0; i < key; i++{
@@ -60,10 +65,14 @@ func (l *ListNode) Search(key int) interface{}{
     return temp.val
 }
 
+// Print prints the elements inside the Linked List
 func (l *ListNode) Print(){
     temp := l
+    fmt.Print("[ ")
     for temp != nil{
-        fmt.Printf("%s\n", temp)
+        fmt.Print(temp.val)
+        fmt.Print(" ")
         temp = temp.next
     }
+    fmt.Print("]\n")
 }
