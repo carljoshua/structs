@@ -13,17 +13,26 @@ $ go get github.com/carljoshua/structs
 # Usage
 
 Import the package and then create the data structure you need. Simple as that.
+The data structures that are included in this package are:
+
+* Stack
+* Queue
+* Linked List
+* Heap
+
 
 ```go
 package main
 
-import "github.com/carljoshua/structs"
+import (
+    "github.com/carljoshua/structs"
+    "reflect"
+)
 
 func main(){
-  s := structs.NewStack()
+  s := structs.NewStack(reflect.Int, 4)
   s.Push(1)
   s.Push(2)
   s.Pop()
 }
 ```
-

@@ -1,53 +1,57 @@
 package structs
 
-import "fmt"
+import (
+    "reflect"
+)
 
-// Structure of the a Linked List Node
+// Linked List Head
+type Head struct {
+    next        *ListNode
+    len         int
+    dtype       reflect.Kind
+}
+
+// Linked List Node
 type ListNode struct {
-    val interface{}
-    next *ListNode
-    isEmpty bool
+    data        interface{}
+    next        *ListNode
 }
 
 // NewList() creates the head node of the Linked List
-func NewList() *ListNode{
-    return &ListNode{isEmpty: true}
+func NewList(d_type reflect.Kind) *Head{
+    return &Head{len: 0, dtype: d_type}
 }
 
 // Insert adds the an element into the given index
-func (l *ListNode) Insert(v interface{}, key int){
-    if l.isEmpty{
-        l.val = v
-        l.isEmpty = false
-    }else{
-        tmp := &ListNode{val: v}
-        if key == 0{
-            b_val := l.val
-            b_next := l.next
-
-            l.val = tmp.val
-            tmp.val = b_val
-            tmp.next = b_next
-            l.next = tmp
-        }else{
-            tmp2 := l
-            for i := 0; i < key - 1; i++{
-                tmp2 = tmp2.next
-            }
-            tmp.next = tmp2.next
-            tmp2.next = tmp
+// If the index exceeds the length of the list,
+// the element will be added at the last
+func (l *Head) Insert(key int, v interface{}) {
+    if l.next == nil {
+        new_node := &ListNode{data: v}
+        l.next = new_node
+    }else if key == 0{
+        new_node := &ListNode{data: v, next: l.next}
+        l.next = new_node
+    }else {
+        cur_node := l.next
+        for i := 0; i < key - 1 && cur_node.next != nil; i++ {
+            cur_node = cur_node.next
         }
+        new_node := &ListNode{data: v, next: cur_node.next}
+        cur_node.next = new_node
     }
+    l.len += 1
 }
 
 // Remove removes an element in the given index
-func (l *ListNode) Remove(key int) {
-    if key == 0{
-        tmp := l.next
-        l.val = tmp.val
-        l.next = tmp.next
+func (l *Head) Remove(key int) {
+    if key + 1 > l.len{
+
+    }else if key == 0 {
+        temp := l.next
+        l.next = temp.next
     }else{
-        tmp := l
+        tmp := l.next
         for i := 0; i < key - 1; i++{
             tmp = tmp.next
         }
@@ -56,23 +60,16 @@ func (l *ListNode) Remove(key int) {
     }
 }
 
-// Search returns the element in the given index
-func (l *ListNode) Search(key int) interface{}{
-    temp := l
+// Get returns the element in the given index
+func (l *Head) Get(key int) interface{}{
+    if key > l.len - 1{
+        //sample error
+        panic("index out of bounds")
+    }
+
+    temp := l.next
     for i := 0; i < key; i++{
         temp = temp.next
     }
-    return temp.val
-}
-
-// Print prints the elements inside the Linked List
-func (l *ListNode) Print(){
-    temp := l
-    fmt.Print("[ ")
-    for temp != nil{
-        fmt.Print(temp.val)
-        fmt.Print(" ")
-        temp = temp.next
-    }
-    fmt.Print("]\n")
+    return temp.data
 }

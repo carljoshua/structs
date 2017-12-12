@@ -1,22 +1,28 @@
 package structs
 
-import "fmt"
+import (
+    "reflect"
+)
 
-// Structure of the Stack
 type Stack struct {
-    data []interface{}
-    size int
+    data    []interface{}
+    dtype   reflect.Kind
+    len     int
 }
 
-// NewStack creates a Stack
-func NewStack(l int) *Stack{
-    return &Stack{size: l}
+// NewStack returns a Stack
+func NewStack(dt reflect.Kind, l int) *Stack{
+    return &Stack{dtype: dt, len: l}
 }
 
 // Push adds an element into the Stack if the Stack is not full
+// It also checks the data type of the value before storing it in the stack
 func (s *Stack) Push(v interface{}){
     if !s.IsFull(){
-        s.data = append(s.data, v)
+        vt := reflect.TypeOf(v)
+        if (vt.Kind() == s.dtype){
+            s.data = append(s.data, v)
+        }
     }
 }
 
@@ -35,16 +41,6 @@ func (s *Stack) Top() interface{}{
     return nil
 }
 
-// Print prints the data inside the Stack using fmt package
-func (s *Stack) Print(){
-    fmt.Print("[ ")
-    for _, val := range s.data{
-        fmt.Print(val)
-        fmt.Print(" ")
-    }
-    fmt.Print("]\n")
-}
-
 // IsEmpty returns true if the Stack is empty, otherwise false
 func (s *Stack) IsEmpty() bool{
     if len(s.data) == 0{
@@ -55,7 +51,7 @@ func (s *Stack) IsEmpty() bool{
 
 // IsFull returns true if the Stack is full, otherwise false
 func (s *Stack) IsFull() bool{
-    if len(s.data) >= s.size{
+    if len(s.data) >= s.len{
         return true
     }
     return false

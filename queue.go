@@ -1,22 +1,27 @@
 package structs
 
-import "fmt"
+import (
+    "reflect"
+)
 
-// Structure of the Queue
 type Queue struct {
-    data []interface{}
-    size int
+    data    []interface{}
+    dtype   reflect.Kind
+    len     int
 }
 
 // NewQueue creates a Queue
-func NewQueue(l int) *Queue{
-    return &Queue{size: l}
+func NewQueue(dt reflect.Kind, l int) *Queue{
+    return &Queue{dtype: dt, len: l}
 }
 
 // Enqueue adds an element inside the Queue if the Queue is not full
 func (q *Queue) Enqueue(v interface{}){
     if !q.IsFull(){
-        q.data = append(q.data, v)
+        vt := reflect.TypeOf(v)
+        if (vt.Kind() == q.dtype){
+            q.data = append(q.data, v)
+        }
     }
 }
 
@@ -35,16 +40,6 @@ func (q *Queue) Peek() interface{}{
     return nil
 }
 
-// Print prints the elements inside the queue using fmt
-func (q *Queue) Print(){
-    fmt.Print("[ ")
-    for _, val := range q.data{
-        fmt.Print(val)
-        fmt.Print(" ")
-    }
-    fmt.Print("]\n")
-}
-
 // IsEmpty returns true if the Queue is empty, otherwise false
 func (q *Queue) IsEmpty() bool{
     if len(q.data) == 0{
@@ -55,7 +50,7 @@ func (q *Queue) IsEmpty() bool{
 
 // IsFull returns true if the Queue is full, otherwise false
 func (q *Queue) IsFull() bool{
-    if len(q.data) >= q.size{
+    if len(q.data) >= q.len{
         return true
     }
     return false
