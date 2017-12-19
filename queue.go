@@ -2,6 +2,7 @@ package structs
 
 import (
     "reflect"
+    "fmt"
 )
 
 type Queue struct {
@@ -10,12 +11,12 @@ type Queue struct {
     len     int
 }
 
-// NewQueue creates a Queue
+// NewQueue() creates a Queue
 func NewQueue(dt reflect.Kind, l int) *Queue{
     return &Queue{dtype: dt, len: l}
 }
 
-// Enqueue adds an element inside the Queue if the Queue is not full
+// Enqueue() adds an element inside the Queue if the Queue is not full
 func (q *Queue) Enqueue(v interface{}){
     if !q.IsFull(){
         vt := reflect.TypeOf(v)
@@ -25,14 +26,14 @@ func (q *Queue) Enqueue(v interface{}){
     }
 }
 
-// Dequeue removes the bottom-most element in the Queue
+// Dequeue() removes the bottom-most element in the Queue
 func (q *Queue) Dequeue(){
     if !q.IsEmpty(){
         q.data = q.data[1:]
     }
 }
 
-// Peek returns the bottom-most element in the Queue
+// Peek() returns the bottom-most element in the Queue
 func (q *Queue) Peek() interface{}{
     if !q.IsEmpty(){
         return q.data[0]
@@ -40,7 +41,7 @@ func (q *Queue) Peek() interface{}{
     return nil
 }
 
-// IsEmpty returns true if the Queue is empty, otherwise false
+// IsEmpty() returns true if the Queue is empty, otherwise false
 func (q *Queue) IsEmpty() bool{
     if len(q.data) == 0{
         return true
@@ -48,10 +49,15 @@ func (q *Queue) IsEmpty() bool{
     return false
 }
 
-// IsFull returns true if the Queue is full, otherwise false
+// IsFull() returns true if the Queue is full, otherwise false
 func (q *Queue) IsFull() bool{
     if len(q.data) >= q.len{
         return true
     }
     return false
+}
+
+// Print() prints the data in the queue into the console
+func (q *Queue) Print() {
+    fmt.Println(q.data)
 }

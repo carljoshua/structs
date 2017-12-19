@@ -2,6 +2,7 @@ package structs
 
 import (
     "reflect"
+    "fmt"
 )
 
 // Linked List Head
@@ -22,7 +23,7 @@ func NewList(d_type reflect.Kind) *Head{
     return &Head{len: 0, dtype: d_type}
 }
 
-// Insert adds the an element into the given index
+// Insert() adds the an element into the given index
 // If the index exceeds the length of the list,
 // the element will be added at the last
 func (l *Head) Insert(key int, v interface{}) {
@@ -43,7 +44,7 @@ func (l *Head) Insert(key int, v interface{}) {
     l.len += 1
 }
 
-// Remove removes an element in the given index
+// Remove() removes an element in the given index
 func (l *Head) Remove(key int) {
     if key + 1 > l.len{
 
@@ -60,7 +61,7 @@ func (l *Head) Remove(key int) {
     }
 }
 
-// Get returns the element in the given index
+// Get() returns the element in the given index
 func (l *Head) Get(key int) interface{}{
     if key > l.len - 1{
         //sample error
@@ -72,4 +73,22 @@ func (l *Head) Get(key int) interface{}{
         temp = temp.next
     }
     return temp.data
+}
+
+// Print() prints the data in the list into the console
+func (l *Head) Print() {
+    cur_node := l.next
+    i := false
+    fmt.Print("[")
+    for cur_node != nil {
+        if i {
+            fmt.Print(" ")
+        }
+        if !i {
+            i = true
+        }
+        fmt.Print(cur_node.data)
+        cur_node = cur_node.next
+    }
+    fmt.Print("]\n")
 }
